@@ -9,10 +9,6 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker-host.sock
       - ../..:/workspaces:cached
-    ports:
-      - "4200:4200" # Angular
-      # - "3000:3000" # Node.js
-      # - "8080:8080" # SpringBoot
     entrypoint: /usr/local/share/docker-init.sh
     command: sleep infinity
     environment:
