@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  # Contenedor principal de desarrollo con todas las herramientas
+  devcontainer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - /var/run/docker.sock:/var/run/docker-host.sock
+      - ../..:/workspaces:cached
+    ports:
+      - "4200:4200" # Angular
+      # - "3000:3000" # Node.js
+      # - "8080:8080" # SpringBoot
+    entrypoint: /usr/local/share/docker-init.sh
+    command: sleep infinity
+    environment:
+      - JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+      - NODE_ENV=development
