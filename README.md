@@ -1,110 +1,103 @@
-# PokerSquad
+# Frasea - Traductor con Historial Descargable en PDF
 
-PokerSquad es una aplicación web que permite a grupos de amigos registrar sus partidas de póker, realizar un seguimiento de ganancias/pérdidas y mantener un ranking actualizado de los jugadores.
+Una aplicación web con Next.js que permite traducir texto, guardar un historial de traducciones y exportarlo a PDF, además de extraer frases de ejemplo desde WordReference.
 
 ## Características Principales
 
-- **Registro de Partidas**: Guarda información detallada sobre cada juego (fecha, jugadores, buy-in, ganadores, ganancias/pérdidas).
-- **Historial de Partidas**: Visualiza todas las partidas jugadas con filtros y opciones de búsqueda.
-- **Ranking de Jugadores**: Sistema automático de clasificación basado en partidas jugadas y ganancias.
-- **Perfiles de Usuario**: Cada jugador tiene su propio perfil con estadísticas y récords personales.
-- **Noticias de Póker**: Accede a noticias actualizadas sobre torneos y eventos importantes de póker.
+- **Traductor de Texto**: Traduce texto utilizando la API de Google Translate (@vitalets/google-translate-api).
+- **Historial de Traducciones**: Guarda cada traducción en base de datos y permite visualizarlas en una tabla.
+- **Gestión de Traducciones**: Permite editar y eliminar traducciones guardadas.
+- **Exportación a PDF**: Permite descargar el historial completo de traducciones en formato PDF.
+- **Extracción de Frases**: Busca y extrae frases de ejemplo desde WordReference mediante scraping.
 
 ## Estructura del Proyecto
 
 ```
-PokerSquad/
-├── .devcontainer/     # Configuración de DevContainers
-├── frontend/          # Aplicación Angular 
-├── backend/           # API del servidor (en desarrollo)
-└── scraper/           # Herramientas para recopilar noticias de póker
+Frasea/
+├── frontend/        # Aplicación Next.js 
+│   ├── app/         # Carpetas de rutas y componentes (App Router)
+│   ├── pages/       # API Routes y páginas (opcional, si usas Pages Router)
+│   ├── components/  # Componentes reutilizables
+│   ├── lib/         # Utilidades y helpers
+│   ├── public/      # Archivos estáticos
+│   └── styles/      # Estilos globales
+└── scraper/         # Herramientas para extracción de frases desde WordReference
 ```
+
+## Funcionalidades Implementadas
+
+### 🔠 Traductor de texto
+- Input para escribir un texto
+- Selección de idiomas origen y destino
+- Integración con @vitalets/google-translate-api
+- Visualización del resultado de la traducción
+
+### 🧾 Historial de traducciones
+- Almacenamiento de traducciones en base de datos MongoDB
+- Visualización en tabla/listado en frontend
+- Funcionalidad para editar traducciones guardadas
+- Funcionalidad para eliminar traducciones
+- Exportación del historial completo a PDF
+
+### 🕷 Scraping de frases desde WordReference
+- Input para buscar una palabra
+- Extracción de frases de ejemplo (inglés + español) desde WordReference
+- Visualización de frases extraídas
+- Opción para seleccionar una frase y traducirla
+- Funcionalidad para guardar directamente al historial
 
 ## Entorno de Desarrollo
 
-Este proyecto utiliza DevContainers para proporcionar un entorno de desarrollo consistente y fácil de configurar.
-
 ### Requisitos Previos
-
-- [Docker](https://www.docker.com/products/docker-desktop/)
-- [Visual Studio Code](https://code.visualstudio.com/)
-- [Extensión Remote - Containers para VS Code](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
-
-### Iniciar el Entorno de Desarrollo
-
-1. Clona este repositorio
-2. Abre el proyecto en VS Code
-3. Cuando VS Code detecte la configuración de DevContainer, haz clic en "Reopen in Container"
-   (Alternativa: presiona F1, escribe "Remote-Containers: Reopen in Container")
-4. El contenedor se construirá automáticamente y configurará:
-   - Node.js para el frontend
-   - Las extensiones necesarias de VS Code
-   - Instalación de dependencias del frontend
-
-### Características del DevContainer
-
-- Reenvío automático del puerto 4200 para la aplicación Angular
-- Extensiones preinstaladas para Angular, Java, ESLint y Prettier
-- Docker-outside-of-Docker habilitado para ejecutar contenedores desde dentro del DevContainer
-- Inicialización automática del servidor de desarrollo del frontend
-
-## Frontend
-
-El frontend está desarrollado con Angular 19 y proporciona una interfaz de usuario intuitiva para gestionar partidas y visualizar estadísticas.
-
-### Acceso Manual (sin DevContainer)
-
-Si prefieres no usar DevContainers, necesitarás:
 
 - Node.js (v18 o superior recomendado)
 - npm (v9 o superior)
+- MongoDB (local o en la nube)
 
-#### Instalación Manual
+### Instalación
 
 ```bash
+# Clonar el repositorio
+git clone [URL_DEL_REPOSITORIO]
+
+# Instalar dependencias 
 cd frontend
 npm install
 ```
 
-#### Ejecución en Desarrollo
+### Ejecución en Desarrollo
 
 ```bash
+# Iniciar la aplicación Next.js (frontend + backend)
 cd frontend
-npm start
+npm run dev
 ```
 
-La aplicación estará disponible en `http://localhost:4200/`
+La aplicación estará disponible en `http://localhost:3000/`
 
-#### Compilación para Producción
+## Tecnologías Utilizadas
 
-```bash
-cd frontend
-npm run build
-```
-
-## Backend (En Desarrollo)
-
-El backend proporcionará una API RESTful para:
-- Gestionar datos de partidas y jugadores
-- Calcular estadísticas y rankings
-- Autenticación de usuarios
-- Almacenar imágenes de perfil
-
-## Scraper
-
-El componente scraper se encarga de recopilar noticias y resultados de los principales torneos de póker para mantener a los usuarios informados sobre el mundo profesional del póker.
+- **Frontend y Backend**: Next.js, React, TailwindCSS
+- **Base de Datos**: MongoDB
+- **Traducción**: @vitalets/google-translate-api
+- **Generación PDF**: jsPDF o similar
+- **Scraping**: Axios y Cheerio para extracción de frases desde WordReference
+- **API Routes**: Endpoints de Next.js para la comunicación con la base de datos
 
 ## Plan de Desarrollo
 
 ### Tareas Pendientes
 
-- Implementar el backend con una API RESTful y base de datos
-- Desarrollar el scraper para noticias de póker
-- Crear la interfaz de registro de partidas
-- Implementar el algoritmo de ranking
-- Desarrollar perfiles de usuario
-- Añadir funcionalidades sociales (comentarios, invitaciones)
-- Implementar sistema de autenticación
+- Migrar el proyecto actual de Angular a Next.js
+- Implementar la interfaz de usuario con Next.js y TailwindCSS
+- Configurar la conexión con MongoDB
+- Crear API Routes para gestionar las traducciones
+- Integrar la API de traducción
+- Desarrollar el scraper para WordReference utilizando Axios y Cheerio
+- Implementar la funcionalidad de exportación a PDF
+- Añadir funcionalidades de edición/eliminación de traducciones
+- Optimizar la interfaz de usuario
+- Mejorar la experiencia móvil
 
 ## Licencia
 
