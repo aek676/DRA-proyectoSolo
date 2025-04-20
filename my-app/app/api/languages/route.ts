@@ -26,8 +26,6 @@ export async function GET() {
     // Buscar las filas de la primera tabla que contiene los idiomas
     // Seleccionar solo la primera tabla que cumpla con el selector
     const table = $('table').first().find('tbody tr');
-    console.log('Table:', table.html());
-
 
     table.each((index, element) => {
       const columns = $(element).find('td');
