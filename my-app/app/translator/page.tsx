@@ -1,7 +1,7 @@
 import TranslatorForm from "@/components/TranslatorForm";
 
-export default function TranslatorPage() {
+export default function page() {
     return (
-       <TranslatorForm/>
-    );
-}
+        <TranslatorForm />
+    )
+};
