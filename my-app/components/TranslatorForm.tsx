@@ -7,6 +7,7 @@ import useSWR from "swr"
 import { fetcher } from '@/lib/fetcher';
 import { toast } from 'sonner';
 import { useDebounce } from '@uidotdev/usehooks';
+import PalabrasSeccion from './PalabrasSeccion';
 
 export default function TranslatorForm() {
     const [sourceLanguage, setSourceLanguage] = useState("");
@@ -15,6 +16,10 @@ export default function TranslatorForm() {
     const [translatedText, setTranslatedText] = useState("");
     const [isTranslating, setIsTranslating] = useState(false);
     const debounceTerm = useDebounce(sourceText, 600);
+    // Estado para palabras individuales
+    const [palabrasSource, setPalabrasSource] = useState<string[]>([]);
+    // Ya no necesitamos mantener el estado de palabras traducidas
+    // const [palabrasTranslated, setPalabrasTranslated] = useState<string[]>([]);
 
     const { data, error, isLoading } = useSWR('/api/languages', fetcher);
 
@@ -27,6 +32,26 @@ export default function TranslatorForm() {
 
     // Usamos un array vacío si los datos no están disponibles aún
     const languages = data?.languages || [];
+
+    // Actualizamos las palabras cuando cambia el texto fuente
+    useEffect(() => {
+        if (sourceText) {
+            setPalabrasSource(sourceText.split(' ').filter(word => word.trim() !== ''));
+        } else {
+            setPalabrasSource([]);
+        }
+    }, [sourceText]);
+
+    // Ya no necesitamos este efecto que procesaba las palabras traducidas
+    /*
+    useEffect(() => {
+        if (translatedText) {
+            setPalabrasTranslated(translatedText.split(' ').filter(word => word.trim() !== ''));
+        } else {
+            setPalabrasTranslated([]);
+        }
+    }, [translatedText]);
+    */
 
     useEffect(() => {
         const handleTranslate = async () => {
@@ -116,6 +141,11 @@ export default function TranslatorForm() {
                     />
                 </div>
             </div>
+
+            {/* Componente de palabras individuales */}
+            <PalabrasSeccion
+                palabrasSource={palabrasSource}
+            />
         </div>
     );
 }
