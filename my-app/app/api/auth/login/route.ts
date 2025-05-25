@@ -15,8 +15,12 @@ export async function POST(request: Request) {
       );
     }
 
+    console.log('Intentando conectar a la base de datos...');
+
     // Conectar a la base de datos
     await dbConnect();
+
+    console.log('Conexión a la base de datos exitosa, buscando usuario:', username);
 
     const existingUser = await User.findOne({ username });
 
@@ -50,8 +54,14 @@ export async function POST(request: Request) {
 
   } catch (error) {
     console.error('Error en login:', error);
+
+    // Proporcionar información más detallada sobre el error
+    const errorMessage = error instanceof Error
+      ? `Error: ${error.message}`
+      : 'Error interno del servidor';
+
     return NextResponse.json(
-      { error: 'Error interno del servidor' },
+      { error: errorMessage },
       { status: 500 }
     );
   }

@@ -2,11 +2,8 @@ import mongoose from 'mongoose';
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
-if (!MONGODB_URI) {
-    throw new Error(
-        'Please define the MONGODB_URI environment variable inside .env.local'
-    );
-}
+// No verificamos la variable MONGODB_URI aquí, lo haremos solo cuando se llame a dbConnect()
+// Esto permite que el build funcione aunque la variable no esté definida
 
 // Type for connection cache
 interface MongooseCache {
@@ -48,9 +45,25 @@ async function dbConnect(): Promise<typeof mongoose> {
             // useUnifiedTopology: true, // en versiones recientes de Mongoose. Puedes probar sin ellas si hay errores.
         };
 
-        cached.promise = mongoose.connect(MONGODB_URI as string, opts).then((mongoose) => {
-            return mongoose;
-        });
+        // Verificamos MONGODB_URI solo cuando se intenta conectar realmente
+        if (!MONGODB_URI) {
+            console.error('Error: MONGODB_URI no está definido en las variables de entorno');
+            throw new Error(
+                'Please define the MONGODB_URI environment variable inside .env.local'
+            );
+        }
+
+        console.log('Intentando conectar a MongoDB en:', MONGODB_URI.replace(/:([^:@]+)@/, ':****@')); // Oculta la contraseña en logs
+
+        try {
+            cached.promise = mongoose.connect(MONGODB_URI as string, opts).then((mongoose) => {
+                console.log('Conexión a MongoDB establecida correctamente');
+                return mongoose;
+            });
+        } catch (error) {
+            console.error('Error al conectar con MongoDB:', error);
+            throw error;
+        }
     }
 
     cached.conn = await cached.promise;

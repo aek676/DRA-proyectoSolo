@@ -54,4 +54,16 @@ const UserSchema = new mongoose.Schema(
 
 // 3. Compile the model and export it
 // This prevents "OverwriteModelError" in Next.js during hot-reloading
-export default mongoose.models.User || mongoose.model("User", UserSchema);
+// Define a model or get it if it already exists
+// This helps prevent "Cannot overwrite model once compiled" errors
+let User;
+
+try {
+  // Try to get the existing model
+  User = mongoose.model("User");
+} catch (error) {
+  // If the model doesn't exist, create it
+  User = mongoose.model("User", UserSchema);
+}
+
+export default User;
