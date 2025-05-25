@@ -1,0 +1,17 @@
+{
+  "name": "Node Container",
+  "dockerComposeFile": ["../../docker-compose.yml"],
+  "service": "app",
+  "shutdownAction": "none",
+  "workspaceFolder": "/workspace/my-app",
+  "forwardPorts": [3000],
+  "postCreateCommand": "npm install",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "RapidAPI.vscode-rapidapi-client"
+      ]
+    }
+  }
+}
