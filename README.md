@@ -99,6 +99,8 @@ La aplicación estará disponible en `http://localhost:3000/`
 - Optimizar la interfaz de usuario
 - Mejorar la experiencia móvil
 
+## Web
+[Demo en línea](https://f9ad-93-115-135-191.ngrok-free.app/)
 ## Licencia
 
 Este proyecto está licenciado bajo los términos de la licencia MIT.
